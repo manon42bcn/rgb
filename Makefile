@@ -34,7 +34,9 @@ DARK_GREEN		=	\033[38;2;75;179;82
 DARK_YELLOW		=	\033[38;5;143m
 
 SRCS		=	rgb_algebra.c \
-				rgb_arithmetics.c
+				rgb_arithmetics.c \
+				rgb_interpolate.c \
+				rgb_oklab.c
 SRCS_DIR	=	src
 OBJS 		=	$(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
 OBJS_SUBS	= 	obj
@@ -47,11 +49,11 @@ OBJS_DIR	=	obj
 
 all: $(NAME) $(HEADER)
 
-$(NAME): $(OBJS_SUBS) $(OBJS)
+$(NAME): $(OBJS)
 	@ar rcs $(NAME) $(OBJS)
 	@echo "$(MAGENTA)Library $@ compiled$(DEF_COLOR)"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HEADER) | $(OBJS_SUBS)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "$(GREEN)$(patsubst $(SRCS_DIR)/%,%, $<)" | awk '{printf "%-50s\tcompiled ✓$(DEF_COLOR)\n", $$0;}'
 

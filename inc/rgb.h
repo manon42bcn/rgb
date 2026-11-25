@@ -14,7 +14,6 @@
 # define RGB_H
 
 # define RGB_MASK	255
-# include "../../lib/inc/libft.h"
 
 typedef enum e_rgb_indx
 {
@@ -25,6 +24,15 @@ typedef enum e_rgb_indx
 
 typedef int		t_rgb;
 typedef double	t_dec;
+typedef double	t_lms[3];
+
+/** @brief Oklab lightness and opponent color coordinates. */
+typedef struct s_oklab
+{
+	double	lightness;
+	double	a;
+	double	b;
+}	t_oklab;
 
 t_rgb	ft_rgb_dot(t_rgb color, double alpha);
 t_rgb	ft_rgb_add(t_rgb ca, t_rgb cb);
@@ -34,5 +42,28 @@ t_rgb	ft_rgb_avg(t_rgb ca, t_rgb cb);
 t_rgb	ft_rgb_balance(t_rgb *rgb);
 t_rgb	ft_invert_color(t_rgb original);
 t_rgb	ft_rgb_get(t_rgb color[3]);
+
+/**
+ * @brief Interpolate two sRGB colors in linear light.
+ * @param start First color, packed as 0xRRGGBB.
+ * @param end Second color, packed as 0xRRGGBB.
+ * @param factor Interpolation position from 0 to 1. Values outside this
+ * range select the nearest endpoint. NaN selects the first color.
+ * @return Interpolated 0xRRGGBB color, rounded after encoding to sRGB.
+ */
+t_rgb	ft_rgb_lerp_linear(t_rgb start, t_rgb end, double factor);
+
+/**
+ * @brief Interpolate two sRGB colors in the perceptual Oklab space.
+ * @param start First color, packed as 0xRRGGBB.
+ * @param end Second color, packed as 0xRRGGBB.
+ * @param factor Interpolation position from 0 to 1. Values outside this
+ * range select the nearest endpoint. NaN selects the first color.
+ * @return Interpolated 0xRRGGBB color, with channels clipped to sRGB.
+ */
+t_rgb	ft_rgb_lerp_oklab(t_rgb start, t_rgb end, double factor);
+
+double	ft_rgb_decode(int channel);
+int		ft_rgb_encode(double value);
 
 #endif

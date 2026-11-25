@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rgb.h"
+#include <stdlib.h>
 
 /**
  * @brief Compute the average of two RGB colors.
@@ -76,7 +77,7 @@ t_rgb	ft_rgb_balance(t_rgb *rgb)
 	rst[0] = rst[0] / 4;
 	rst[1] = rst[1] / 4;
 	rst[2] = rst[2] / 4;
-	ft_sec_free(rgb);
+	free(rgb);
 	return ((rst[0] << 16) | (rst[1] << 8) | rst[2]);
 }
 

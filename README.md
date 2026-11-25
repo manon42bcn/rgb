@@ -44,5 +44,18 @@ Some useful resources to understand this library:
 - `ft_invert_color(t_rgb original):` Invert a given color.
 - `ft_rgb_get(t_rgb color[3])`: Return t_rgb color from RGB color.
 
+### Interpolation ###
+
+- `ft_rgb_lerp_linear(start, end, factor)` blends packed sRGB colors in
+  linear light.
+- `ft_rgb_lerp_oklab(start, end, factor)` blends the same colors in
+  the perceptual [Oklab space](https://bottosson.github.io/posts/oklab/).
+
+A factor of 0 returns the first color, and 1 returns the second.
+For example, at 0.5, the linear-light midpoint of black and white is
+`0xBCBCBC`, and the Oklab midpoint is `0x636363`.
+
 ## Usage ##
-To use the library, include its header in your project and compile the source files with your project.
+
+Run `make` to build `librgb.a`. Include `inc/rgb.h` and link with
+`librgb.a -lm` when using the interpolation functions.
